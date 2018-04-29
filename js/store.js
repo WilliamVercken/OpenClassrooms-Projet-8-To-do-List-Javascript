@@ -80,16 +80,10 @@
 
         callback = callback || function() {};
 
-        // Generate an ID
-        var newId = "";
-        var charset = "0123456789";
-
-        for (var i = 0; i < 6; i++) {
-            newId += charset.charAt(Math.floor(Math.random() * charset.length));
-        }
 
         // If an ID was actually given, find the item and update each property
         if (id) {
+
             for (var i = 0; i < todos.length; i++) {
                 if (todos[i].id === id) {
                     for (var key in updateData) {
@@ -101,11 +95,48 @@
 
             localStorage[this._dbName] = JSON.stringify(data);
             callback.call(this, todos);
+
         } else {
+
+            // If no ID was given, we generate a new ID for the new todo
+            var newId = "";
+            var charset = "0123456789";
+
+            // We check if there is already at least one item
+            if (todos.length > 0) {
+
+                // If yes, we loop to be sure the new ID is not already used
+                var idAlreadyUsed = true;
+
+                while (idAlreadyUsed === true) {
+
+                    // We create an ID
+                    for (var i = 0; i < 6; i++) {
+                        newId += charset.charAt(Math.floor(Math.random() * charset.length));
+                    }
+
+                    // Is it already used ?
+                    if (todos.find(x => x.id === newId)) {
+                        // Yes
+                        idAlreadyUsed = true;
+                    } else {
+                        // No
+                        idAlreadyUsed = false;
+                    }
+
+                }
+
+            } else {
+
+                // If there is no item, we create the ID
+                for (var i = 0; i < 6; i++) {
+                    newId += charset.charAt(Math.floor(Math.random() * charset.length));
+                }
+
+            }
 
             // Assign an ID
             updateData.id = parseInt(newId);
-
 
             todos.push(updateData);
             localStorage[this._dbName] = JSON.stringify(data);
