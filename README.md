@@ -6,3 +6,5 @@ Les tâches à faire dans ce projet :
 * Optimiser le code actuel
 * Tester le projet avec l'aide de Jasmine
 * Créer une documentation fonctionnelle, technique, et faire un audit
+
+Pour installer l'application, vous devrez aller à la racine du site et lancer un `npm install`
