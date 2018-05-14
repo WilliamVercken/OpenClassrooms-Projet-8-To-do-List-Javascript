@@ -84,10 +84,13 @@
         // If an ID was actually given, find the item and update each property
         if (id) {
 
-            var todo = todos.find(x => x.id === id);
-
-            for (var key in updateData) {
-                todo[key] = updateData[key];
+            for (var i = 0, len = todos.length; i < len; i++) {
+                if (todos[i].id === id) {
+                    for (var key in updateData) {
+                        todos[i][key] = updateData[key];
+                    }
+                    break;
+                }
             }
 
             localStorage[this._dbName] = JSON.stringify(data);
@@ -113,12 +116,15 @@
                     }
 
                     // Is it already used ?
-                    if (todos.find(x => x.id === newId)) {
-                        // Yes
-                        idAlreadyUsed = true;
-                    } else {
-                        // No
-                        idAlreadyUsed = false;
+                    for (var i = 0, len = todos.length; i < len; i++) {
+                        if (todos[i].id === newId) {
+                            // Yes
+                            idAlreadyUsed = true;
+                            break;
+                        } else {
+                            // No
+                            idAlreadyUsed = false;
+                        }
                     }
 
                 }
