@@ -157,9 +157,12 @@
         var data = JSON.parse(localStorage[this._dbName]);
         var todos = data.todos;
 
-        var todoIndex = todos.findIndex(x => x.id === id);
-
-        todos.splice(todoIndex, 1);
+        for (var i = 0, len = todos.length; i < len; i++) {
+            if (todos[i].id == id) {
+                todos.splice(i, 1);
+                break;
+            }
+        }
 
         localStorage[this._dbName] = JSON.stringify(data);
         callback.call(this, todos);
